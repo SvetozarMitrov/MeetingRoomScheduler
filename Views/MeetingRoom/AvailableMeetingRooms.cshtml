@@ -1,0 +1,149 @@
+﻿@model IEnumerable<MeetingRoomScheduler.Models.MeetingRoomFilterResponseViewModel>
+
+@{
+    ViewData["Title"] = "Available Meeting Rooms";
+}
+
+<div>
+    <table align="center" class="mt-2">
+        <tbody>
+            @foreach (var meetingRoom in Model)
+            {
+                <tr class="mb-2">
+                    <td>
+                        <div id="dataListItem">
+                            <span id="room @meetingRoom.RoomName" class="mb-2">@meetingRoom.RoomName</span>
+                            <select class="@meetingRoom.RoomName form-control mb-2">
+
+                                @foreach (var timeSlot in meetingRoom.AvailableTimeSlots)
+                                {
+                                    <option value="@timeSlot.From.ToString("s"),@timeSlot.To.ToString("s")">@timeSlot.From.ToString("HH:mm") - @timeSlot.To.ToString("HH:mm")</option>
+                                }
+                            </select>
+                            <button id="@meetingRoom.RoomName" class="button btn w-100 btn-outline-primary">Book room</button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<style>
+    #dataListItem {
+        float: left;
+        font-weight: normal;
+    }
+</style>
+
+@section Scripts
+    {
+    <script type="text/javascript">
+        $(function () {
+
+            $.getIskarTime = function () {
+                var selectedTime = $("select[class*='Iskar']").val();
+                return selectedTime;
+            }
+            $.getMaritsaTime = function () {
+                var selectedTime = $("select[class*='Maritsa']").val();
+                return selectedTime;
+            }
+            $.getDanubeTime = function () {
+                var selectedTime = $("select[class*='Danube']").val();
+                return selectedTime;
+            }
+            $.getYantraTime = function () {
+                var selectedTime = $("select[class*='Yantra']").val();
+                return selectedTime;
+            }
+
+
+            $("#Iskar").click(function () {
+                var selectedTimeArray = $.getIskarTime().split(',');
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("BookMeetingRoom", "MeetingRoom")',
+                    data: JSON.stringify({
+                        from: selectedTimeArray[0],
+                        to: selectedTimeArray[1],
+                        roomName: 'Iskar'
+                    }),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (response) {
+                        console.log(response);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            });
+
+            $("#Maritsa").click(function () {
+                var selectedTimeArray = $.getMaritsaTime().split(',');
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("BookMeetingRoom", "MeetingRoom")',
+                    data: JSON.stringify({
+                        from: selectedTimeArray[0],
+                        to: selectedTimeArray[1],
+                        roomName: 'Maritsa'
+                    }),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (response) {
+                        console.log(response);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            });
+
+            $("#Danube").click(function () {
+                var selectedTimeArray = $.getDanubeTime().split(',');
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("BookMeetingRoom", "MeetingRoom")',
+                    data: JSON.stringify({
+                        from: selectedTimeArray[0],
+                        to: selectedTimeArray[1],
+                        roomName: 'Danube'
+                    }),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (response) {
+                        console.log(response);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            });
+
+            $("#Yantra").click(function () {
+                var selectedTimeArray = $.getYantraTime().split(',');
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("BookMeetingRoom", "MeetingRoom")',
+                    data: JSON.stringify({
+                        from: selectedTimeArray[0],
+                        to: selectedTimeArray[1],
+                        roomName: 'Yantra'
+                    }),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (response) {
+                        console.log(response);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            });
+
+            return false;
+        });
+    </script>
+}

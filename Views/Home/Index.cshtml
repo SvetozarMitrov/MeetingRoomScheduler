@@ -1,0 +1,24 @@
+﻿@model MeetingRoomScheduler.Models.MeetingRoomFilterRequestViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+<form method="post" asp-controller="MeetingRoom" asp-action="AvailableMeetingRooms">
+    <div class="form-group">
+        <label class="control-label mb-2">Meeting Date</label>
+        <div class='input-group date mb-2'>
+            <input asp-for="Date" type="text" class="mb-2" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+        </div>
+        <label class="control-label mb-2">Duration (in minutes)</label>
+        <div class='input-group mb-2'>
+            <input asp-for="Duration" type="number" class="form-control" value="15" />
+        </div>
+        <div class="mb-2">
+            <label class="control-label">Number of attendees</label>
+            <input asp-for="Attendees" type="number" class="form-control" value=1 />
+        </div>
+        <div>
+            <button type="submit" class="btn w-100 btn-outline-primary">Check available rooms</button>
+        </div>
+    </div>
+</form>
